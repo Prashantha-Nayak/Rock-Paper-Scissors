@@ -1,5 +1,6 @@
 let userscore = 0;
 let compscore = 0;
+let roundsPlayed = 0; // ✅ Track number of rounds
 
 let choices = document.querySelectorAll(".choice");
 let msg = document.querySelector('#msg');
@@ -14,7 +15,7 @@ const genComputerChoice = () => {
     return options[randomNum];
 }
 
-// Draw game code
+// Draw game
 const drawGame = () => {
     msg.innerText = "Game draw!";
     msg.style.backgroundColor = 'blue';
@@ -35,9 +36,9 @@ const showWinner = (userWin, choiceId, computerChoice) => {
     }
 }
 
-// Update computer generated choice image
+// Update computer generated image
 const updateComputerGeneratedImage = (computerChoice) => {
-    computerGeneratedDiv.className = 'computergenerated'; // Reset class name
+    computerGeneratedDiv.className = 'computergenerated'; // Reset class
     if (computerChoice === 'rock') {
         computerGeneratedDiv.classList.add('rock1');
     } else if (computerChoice === 'paper') {
@@ -47,10 +48,32 @@ const updateComputerGeneratedImage = (computerChoice) => {
     }
 }
 
+// Final result after 10 moves
+const showFinalResult = () => {
+    if (userscore > compscore) {
+        msg.innerText = "🎉 Game Over! You are the final winner!";
+        msg.style.backgroundColor = 'green';
+    } else if (compscore > userscore) {
+        msg.innerText = "😞 Game Over! Computer wins the game!";
+        msg.style.backgroundColor = 'red';
+    } else {
+        msg.innerText = "🤝 Game Over! It's a tie!";
+        msg.style.backgroundColor = 'gray';
+    }
+
+    // Disable further clicks
+    choices.forEach(choice => {
+        choice.style.pointerEvents = 'none';
+    });
+}
+
 // Play game
 const playGame = (choiceId) => {
+    if (roundsPlayed >= 10) return;
+
     const computerChoice = genComputerChoice();
     updateComputerGeneratedImage(computerChoice);
+
     if (choiceId === computerChoice) {
         drawGame();
     } else {
@@ -64,8 +87,15 @@ const playGame = (choiceId) => {
         }
         showWinner(userWin, choiceId, computerChoice);
     }
+
+    roundsPlayed++; // ✅ Increment round count
+
+    if (roundsPlayed === 10) {
+        setTimeout(showFinalResult, 500); // ✅ Show result after a short delay
+    }
 }
 
+// Add event listeners
 choices.forEach((choice) => {
     const choiceId = choice.getAttribute("id");
     choice.addEventListener('click', () => {
