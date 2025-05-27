@@ -95,3 +95,10 @@ const playGame = (choiceId) => {
     }
 }
 
+// Add event listeners
+choices.forEach((choice) => {
+    const choiceId = choice.getAttribute("id");
+    choice.addEventListener('click', () => {
+        playGame(choiceId);
+    });
+});
