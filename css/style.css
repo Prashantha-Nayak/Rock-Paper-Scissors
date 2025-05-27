@@ -131,27 +131,3 @@ img {
     object-fit: cover;
     margin-top: 5rem;
 }
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  background-color: rgba(0, 0, 0, 0.9);
-  color: white;
-  font-size: 2rem;
-  padding: 1.5rem 3rem;
-  border-radius: 15px;
-  z-index: 999;
-  text-align: center;
-  transition: all 0.4s ease;
-  opacity: 0;
-}
-
-.popup.show {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-
-.hidden {
-  display: none;
-}
